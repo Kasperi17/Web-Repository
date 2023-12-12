@@ -1,18 +1,54 @@
 <!DOCTYPE html>
 <html>
+
 <body>
 
-<h2>HTML Forms</h2>
+<h2>Kyselylomake</h2>
 
-<form action="/action_page.php">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname" value=""><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value=""><br><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value=""><br><br>
+<form action="/submit.php" method="post">
+  <label for="name">Nimi:</label><br>
+  <input type="text" id="name" name="name" required><br>
+
+  <label for="address">Katuosoite:</label><br>
+  <input type="text" id="address" name="address" required><br>
+
+  <label for="postalCode">Postinumero:</label><br>
+  <input type="text" id="postalCode" name="postalCode" required pattern="\d{5}"><br>
+
+  <label for="city">Postitoimipaikka:</label><br>
+  <input type="text" id="city" name="city" required><br>
+
+  <label for="email">Sähköpostiosoite:</label><br>
+  <input type="email" id="email" name="email" required><br>
+
+  <label for="gender">Sukupuoli:</label><br>
+  <select id="gender" name="gender" required>
+    <option value="male">Mies</option>
+    <option value="female">Nainen</option>
+    <option value="other">En halua kertoa</option>
+  </select><br>
+
+  <label for="birthdate">Syntymäaika:</label><br>
+  <input type="date" id="birthdate" name="birthdate" required min="1900-01-01" max="2018-01-01"><br>
+
+  <label for="shoeSize">Kengän numero (30-50):</label><br>
+  <input type="number" id="shoeSize" name="shoeSize" required min="30" max="50"><br>
+
+  <label>Lisäpalvelut:</label><br>
+  <input type="checkbox" id="breakfast" name="services[]" value="aamiainen">
+  <label for="breakfast">Aamiainen</label><br>
+
+  <input type="checkbox" id="dinner" name="services[]" value="päivällinen">
+  <label for="dinner">Päivällinen</label><br>
+
+  <input type="checkbox" id="snack" name="services[]" value="välipala">
+  <label for="snack">Välipala</label><br>
+
+  <input type="checkbox" id="supper" name="services[]" value="iltapala">
+  <label for="supper">Iltapala</label><br>
+
   <input type="submit" value="Submit">
-</form> 
+</form>
 
 </body>
 </html>
