@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Sähköpostiosoitteen tarkistus</title>
+</head>
+<body>
+
+    <script>
+        function isValidEmail(email) {
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function checkEmailValidity() {
+            var emailInput = prompt("Syötä sähköpostiosoite:");
+
+            if (isValidEmail(emailInput)) {
+                console.log("Sähköpostiosoite on kelvollinen.");
+            } else {
+                console.log("Sähköpostiosoite ei ole kelvollinen.");
+            }
+        }
+
+        checkEmailValidity();
+    </script>
+
+</body>
+</html>

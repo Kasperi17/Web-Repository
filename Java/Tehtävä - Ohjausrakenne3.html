@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sääohjelma</title>
+</head>
+<body>
+
+<script>
+
+    var aurinko = prompt("Paistaako aurinko (K/E):");
+    var sade = prompt("Sataako (K/E):");
+    var lampotila = prompt("Onko lämpötila >0 (K/E):");
+
+
+    if (aurinko === 'K' && sade === 'K' && lampotila === 'K') {
+        alert("Aurinko paistaa ja vettä sataa, taitaa tulla kesä.");
+    } else if (aurinko === 'E' && sade === 'K' && lampotila === 'K') {
+        alert("Syksy saapui lehdet vei tuuli mennessään.");
+    } else if ((aurinko === 'E' && sade === 'E' && lampotila === 'K') || 
+               (aurinko === 'K' && sade === 'E' && lampotila === 'K')) {
+        alert("Jo joutui armas aika ja suvi suloinen.");
+    } else {
+        alert("Ei tunnistettu säätilaa.");
+    }
+</script>
+
+</body>
+</html>

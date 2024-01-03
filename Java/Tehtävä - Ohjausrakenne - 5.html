@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Noppapeli</title>
+    <style>
+        #result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        #total {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        #maxSum {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Noppapeli</h1>
+    
+    <label for="rounds">Syötä kierrosten määrä:</label>
+    <input type="number" id="rounds" min="1" value="1">
+    <button onclick="rollDice()">Heitä noppaa</button>
+    
+    <div id="result"></div>
+    <p id="total"></p>
+    <p id="maxSum"></p>
+
+    <script>
+        function rollDice() {
+            var rounds = document.getElementById("rounds").value;
+            var resultElement = document.getElementById("result");
+            var totalElement = document.getElementById("total");
+            var maxSumElement = document.getElementById("maxSum");
+            resultElement.innerHTML = "";
+
+            var totalSum = 0;
+            var maxSum = 0;
+
+            for (var i = 0; i < rounds; i++) {
+                var dice1 = Math.floor(Math.random() * 6) + 1;
+                var dice2 = Math.floor(Math.random() * 6) + 1;
+                var total = dice1 + dice2;
+
+                var roundResult = document.createElement("p");
+                roundResult.textContent = "Kierros " + (i + 1) + ": Noppa 1: " + dice1 + ", Noppa 2: " + dice2 + ", Yhteensä: " + total;
+                resultElement.appendChild(roundResult);
+
+                totalSum += total;
+
+                if (total > maxSum) {
+                    maxSum = total;
+                }
+            }
+
+            totalElement.textContent = "Kaikkien heittojen summa: " + totalSum;
+            maxSumElement.textContent = "Suurin heittokäden summa: " + maxSum;
+        }
+    </script>
+
+</body>
+</html>

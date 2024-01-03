@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>>
+    <title>Lääkityksen seuranta</title>
+    <style>
+        button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Lääkityksen Seuranta</h1>
+
+<label for="suositus">Suositusmäärä:</label>
+<input type="number" id="suositus" min="1" value="10">
+<button onclick="asetaSuositus()">Aseta Suositus</button>
+
+<br>
+
+<button onclick="annaLääke(1)">Anna Lääke (1)</button>
+<button onclick="annaLääke(2)">Anna Lääke (2)</button>
+<button onclick="annaLääke(5)">Anna Lääke (5)</button>
+
+<br>
+
+<p><strong>Lääkkeen annostelun tila:</strong></p>
+<p>Kerrat annettu: <span id="kerrat">0</span></p>
+<p>Viimeisin annos: <span id="viimeisin">Ei annettu</span></p>
+<p>Suurin annos: <span id="suurin">Ei annettu</span></p>
+<p>Jäljellä oleva annos: <span id="jäljellä">-</span></p>
+<p><strong>Suurin annettu annos:</strong> <span id="suurinAnnos">Ei annettu</span></p>
+<p><strong>Ylitettiinkö suositusmäärä:</strong> <span id="ylitettiin">Ei</span></p>
+
+<script>
+    let suositusmaara = 10;
+    let kerrat = 0;
+    let viimeisinAnnos = null;
+    let suurinAnnos = null;
+
+    function asetaSuositus() {
+        suositusmaara = parseInt(document.getElementById('suositus').value);
+        resetoiTiedot();
+    }
+
+    function annaLääke(annos) {
+        kerrat++;
+        if (viimeisinAnnos !== null) {
+            if (annos > suurinAnnos || suurinAnnos === null) {
+                suurinAnnos = annos;
+            }
+
+            const suurempi = annos > viimeisinAnnos ? 'Suurempi' : 'Pienempi';
+            document.getElementById('viimeisin').innerText = `${annos} (${suurempi})`;
+        } else {
+            document.getElementById('viimeisin').innerText = annos;
+        }
+
+        viimeisinAnnos = annos;
+        document.getElementById('kerrat').innerText = kerrat;
+        document.getElementById('suurin').innerText = suurinAnnos;
+        
+        const jäljellä = suositusmaara - kerrat;
+        document.getElementById('jäljellä').innerText = jäljellä < 0 ? 0 : jäljellä;
+
+        document.getElementById('suurinAnnos').innerText = suurinAnnos;
+        document.getElementById('ylitettiin').innerText = jäljellä < 0 ? 'Kyllä' : 'Ei';
+    }
+
+    function resetoiTiedot() {
+        kerrat = 0;
+        viimeisinAnnos = null;
+        suurinAnnos = null;
+
+        document.getElementById('kerrat').innerText = 0;
+        document.getElementById('viimeisin').innerText = 'Ei annettu';
+        document.getElementById('suurin').innerText = 'Ei annettu';
+        document.getElementById('jäljellä').innerText = '-';
+        document.getElementById('suurinAnnos').innerText = 'Ei annettu';
+        document.getElementById('ylitettiin').innerText = 'Ei';
+    }
+</script>
+
+</body>
+</html>
