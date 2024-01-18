@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Henkilötiedot</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <style>
+    body{
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: gray;
+    }
+</style>
+
+</head>
+
+
+
+<body>
+ 
+<div id="toggle" class="form-container">
+  <label for="firstName">Etunimi:</label>
+  <input type="text" id="firstName" name="firstName">
+  
+  <label for="lastName">Sukunimi:</label>
+  <input type="text" id="lastName" name="lastName">
+  
+  <label for="address">Osoite:</label>
+  <input type="text" id="address" name="address">
+  
+  <label for="email">Sähköposti:</label>
+  <input type="text" id="email" name="email">
+  
+  <label for="phone">Puhelinnumero:</label>
+  <input type="text" id="phone" name="phone">
+  
+  <label for="birthdate">Syntymäpäivä:</label>
+  <input type="text" id="birthdate" name="birthdate" readonly>
+</div>
+ 
+<script>
+  $(document).click(function() {
+    $("#toggle").effect("size", {
+      to: { width: window.innerWidth, height: window.innerHeight }
+    }, 1000);
+  });
+</script>
+ 
+</body>
+</html>
