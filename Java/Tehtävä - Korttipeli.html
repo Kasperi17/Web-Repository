@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack</title>
+</head>
+<body>
+
+<h1>Blackjack</h1>
+<button onclick="aloitaPeli()">Aloita peli</button>
+<button onclick="otaLisaaKortti()">Ota lisää kortteja</button>
+<button onclick="pysaytaPeli()">Älä otakortteja</button>
+
+
+<div id="pelaajanKortit"></div>
+<div id="tietokoneenKortit"></div>
+<div id="pisteet"></div>
+<div id="voittaja"></div>
+
+<script>
+    let pelaajanKortit = [];
+    let tietokoneenKortit = [];
+    let peliKaynnissa = false;
+    
+    function aloitaPeli() {
+        pelaajanKortit = [arvoKortti(), arvoKortti()];
+        tietokoneenKortit = [arvoKortti(), arvoKortti()];
+        peliKaynnissa = true;
+        
+        paivitaKortit();
+        laskePisteet();
+        document.getElementById('voittaja').textContent = ''; // Tyhjennetään voittajatieto
+    }
+
+    function otaLisaaKortti() {
+        if (peliKaynnissa) {
+            pelaajanKortit.push(arvoKortti());
+            paivitaKortit();
+            laskePisteet();
+            
+            // Tarkistetaan, onko pelaaja mennyt yli 21 pisteen
+            if (laskeKorttienSumma(pelaajanKortit) > 21) {
+                peliKaynnissa = false;
+                tarkistaVoittaja();
+            }
+        }
+    }
+
+    function pysaytaPeli() {
+        if (peliKaynnissa) {
+            // Tietokoneen vuoro ottaa kortteja automaattisesti
+            while (laskeKorttienSumma(tietokoneenKortit) < 17) {
+                tietokoneenKortit.push(arvoKortti());
+            }
+            
+            // Päivitetään näkymä
+            paivitaKortit();
+            laskePisteet();
+            
+            peliKaynnissa = false;
+            tarkistaVoittaja();
+        }
+    }
+
+  
+
+    function arvoKortti() {
+        const kortit = ['Hertta', 'Risti', 'Ruutu', 'Pata'];
+        const numerot = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jätkä', 'Kuningatar', 'Kuningas'];
+        
+        const satunnainenMaa = kortit[Math.floor(Math.random() * kortit.length)];
+        const satunnainenNumero = numerot[Math.floor(Math.random() * numerot.length)];
+        
+        return satunnainenNumero + ' ' + satunnainenMaa;
+    }
+
+    function paivitaKortit() {
+        const pelaajanKortitElementti = document.getElementById('pelaajanKortit');
+        const tietokoneenKortitElementti = document.getElementById('tietokoneenKortit');
+        
+        pelaajanKortitElementti.textContent = 'Pelaajan kortit: ' + pelaajanKortit.join(', ');
+        tietokoneenKortitElementti.textContent = 'Tietokoneen kortit: ' + tietokoneenKortit.join(', ');
+    }
+
+    function laskePisteet() {
+        const pisteetElementti = document.getElementById('pisteet');
+        pisteetElementti.textContent = 'Pisteet: ' + laskeKorttienSumma(pelaajanKortit);
+    }
+
+    function laskeKorttienSumma(kortit) {
+        let summa = 0;
+        let ässät = 0;
+
+        for (let kortti of kortit) {
+            const arvo = kortti.split(' ')[0];
+            if (arvo === 'Jätkä' || arvo === 'Kuningatar' || arvo === 'Kunkku') {
+                summa += 10;
+            } else if (arvo === 'Ässä') {
+                summa += 11;
+                ässät++;
+            } else {
+                summa += parseInt(arvo);
+            }
+        }
+
+        while (summa > 21 && ässät > 0) {
+            summa -= 10;
+            ässät--;
+        }
+
+        return summa;
+    }
+
+    function tarkistaVoittaja() {
+        const pelaajanPisteet = laskeKorttienSumma(pelaajanKortit);
+        const tietokoneenPisteet = laskeKorttienSumma(tietokoneenKortit);
+
+        const voittajaElementti = document.getElementById('voittaja');
+
+        if (pelaajanPisteet > 21) {
+            voittajaElementti.textContent = 'Tietokone voittaa! Pelaaja meni yli 21 pisteen.';
+        } else if (tietokoneenPisteet > 21) {
+            voittajaElementti.textContent = 'Pelaaja voittaa! Tietokone meni yli 21 pisteen.';
+        } else if (pelaajanPisteet > tietokoneenPisteet) {
+            voittajaElementti.textContent = 'Pelaaja voittaa! Pelaajan pistemäärä on lähempänä 21.';
+        } else if (pelaajanPisteet < tietokoneenPisteet) {
+            voittajaElementti.textContent = 'Tietokone voittaa! Tietokoneen pistemäärä on lähempänä 21.';
+        } else {
+            voittajaElementti.textContent = 'Tasapeli! Pistemäärät ovat samat.';
+        }
+    }
+</script>
+
+</body>
+</html>
