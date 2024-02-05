@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mustat Renkaat</title>
+    <style>
+        /* Perustyyli sivulle */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Ylätunniste yrityksen tiedoille */
+        header {
+            background-color: #19a5ec;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* Logon koko ja muut tyylit */
+        #logo {
+            width: 250px;
+            height: auto;
+            margin: left auto;
+            display: block;
+        }
+
+        /* Pääsisältö renkaiden haulle */
+        main {
+            padding: 20px;
+            flex: 1;
+        }
+
+        /* Alatunniste kartalle ja sesonkimainoksille */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: left;
+            margin-top: auto;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Lisää tyylit tarvittaessa */
+    </style>
+</head>
+<body>
+
+<!-- Ylätunniste yrityksen tiedoille, mukana logo -->
+<header>
+    <img id="logo" src="logo_dark.svg" alt="Mustat Renkaat Logo">
+</header>
+
+<!-- Pääsisältö renkaiden haulle -->
+<main>
+    <section id="tire-search">
+        <label for="tire-size">Valitse rengaskoko:</label>
+        <select id="tire-size">
+            <option value="205/55R16">205/55R16</option>
+            <option value="225/45R17">225/45R17</option>
+        </select>
+        <button onclick="searchTires()">Hae renkaat</button>
+        <div id="search-results"></div>
+    </section>
+</main>
+
+<!-- Alatunniste kartalle ja sesonkimainoksille -->
+<footer>
+    <div id="company-info">
+        <p>Mustapään Auto Oy</p>
+        <p>Mustat Renkaat</p>
+        <p>Kosteenkatu 1, 86300 Oulainen</p>
+        <p>Puh. 040-7128158</p>
+        <p>Email: myyntimies@mustatrenkaat.net</p>
+    </div>
+</footer>
+
+<!-- JavaScript dynaamista toiminnallisuutta varten -->
+<script>
+    function searchTires() {
+        document.getElementById('search-results').innerHTML = 'Hakutoiminnallisuus ei vielä toteutettu.';
+    }
+</script>
+</body>
+</html>
