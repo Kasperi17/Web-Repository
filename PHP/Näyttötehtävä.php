@@ -9,7 +9,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0; dadada
+            padding: 0; 
             position: relative;
             min-height: 100vh;
         }
@@ -49,6 +49,7 @@
 
         /* Lisää tyylit tarvittaessa */
     </style>
+    
 </head>
 <body>
 
@@ -57,49 +58,6 @@
     <img id="logo" src="logo_dark.svg" alt="Mustat Renkaat Logo">
 </header>
 
-<!-- Pääsisältö renkaiden haulle -->
-<main>
-    <section id="tire-search">
-        <label for="tire-size">Valitse rengaskoko:</label>
-        <select id="tire-size">
-            <?php
-            // Yhdistetään tietokantaan
-            $servername = "localhost";
-            $username = "root"; // Vaihda käyttäjänimi
-            $password = ""; // Vaihda salasana
-            $dbname = "renkaat";
-
-            // Luo yhteys
-            $conn = new mysqli($servername, $username, $password, $dbname);
-
-            // Tarkista yhteys
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
-            // Haetaan renkaiden koot tietokannasta
-            $sql = "SELECT DISTINCT Koko FROM renkaat";
-            $result = $conn->query($sql);
-
-            // Lisää vaihtoehdot valikkoon
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo '<option value="' . $row['Koko'] . '">' . $row['Koko'] . '</option>';
-                }
-            } else {
-                echo '<option value="">Ei kokoja saatavilla</option>';
-            }
-
-            // Sulje yhteys
-            $conn->close();
-            ?>
-        </select>
-        <button onclick="searchTires()">Hae renkaat</button>
-        <div id="search-results"></div>
-    </section>
-</main>
-
-<!-- Alatunniste kartalle ja sesonkimainoksille -->
 <footer>
     <div id="company-info">
         <p>Mustapään Auto Oy</p>
@@ -110,46 +68,76 @@
     </div>
 </footer>
 
-<!-- JavaScript ja PHP dynaamista toiminnallisuutta varten -->
-<script>
-    function searchTires() {
-        var selectedSize = document.getElementById('tire-size').value;
+<?php
+session_start();
+$host = "127.0.0.1";
+$username = "root";
+$password = "";
+$database_in_use = "renkaat";
 
-        // Tee AJAX-pyyntö PHP-skriptille
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // Käsittele vastaus ja päivitä hakutulokset
-                var result = JSON.parse(xhr.responseText);
-                displayResults(result);
+try {
+    $connection = new PDO("mysql:host=$host;dbname=$database_in_use", $username, $password);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    if($_SERVER['REQUEST_METHOD'] == "POST") {
+        $Type = $_POST['type'];
+        $Size = $_POST['size'];
+        if(!empty($Type) && !empty($Size))  {
+            $query = "SELECT * FROM Renkaat WHERE Tyyppi LIKE '%".$Type."%' AND Koko LIKE '%".$Size."%'";
+
+            $result = $connection->query($query);
+
+            $result->execute();
+
+            if($result->rowCount() > 0) {
+                while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                    $Tire = "id: " . $row["RengasID"]. " - Name: " . $row["Merkki"]. " - Model: " . $row["Malli"]. " - Type: " . $row["Tyyppi"]. " - Size: " . $row["Koko"]. " - Price: $ " . $row["Hinta"]. " - Balance: " . $row["Saldo"];
+                    echo $Tire . "<br><br>";
+                }
             }
-        };
-        xhr.open("GET", "search.php?size=" + selectedSize, true);
-        xhr.send();
-    }
-
-    // Funktio näyttää hakutulokset
-    function displayResults(results) {
-        var resultsContainer = document.getElementById('search-results');
-        resultsContainer.innerHTML = ''; // Tyhjennä aiemmat tulokset
-
-        if (results.length > 0) {
-            for (var i = 0; i < results.length; i++) {
-                var tire = results[i];
-                // Luo HTML-elementti ja lisää se hakutuloksiin
-                var tireElement = document.createElement('div');
-                tireElement.innerHTML = '<strong>' + tire.Merkki + ' ' + tire.Malli + '</strong><br>' +
-                                        'Tyyppi: ' + tire.Tyyppi + '<br>' +
-                                        'Koko: ' + tire.Koko + '<br>' +
-                                        'Hinta: ' + tire.Hinta + ' €<br>' +
-                                        'Saldo: ' + tire.Saldo;
-                resultsContainer.appendChild(tireElement);
-            }
-        } else {
-            resultsContainer.innerHTML = 'Ei tuloksia.';
+        }
+        else {
+            echo "Information is invalid";
         }
     }
-</script>
+}
+catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+?>
+</style>
+    <div id="box">
+        <form method="post">
+            <div style="font-size: 30px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white; text-align:center;">Mustat Renkaat</div>
+            Tyyppi: <select name="type" id="Type">
+                <option value="Nasta">Nasta</option>
+                <option value="Kitka">Kitka</option>
+                <option value="Kesä">Kesä</option>
+            </select><br><br>
+            Koko: <select name="size" id="Size">
+                <option value="165/55-14">165/55-14</option>
+                <option value="165/55-15">165/55-15</option>
+                <option value="165/65-14">165/65-14</option>
+                <option value="175/65-14">175/65-14</option>
+                <option value="175/65-15">175/65-15</option>
+                <option value="185/55-15">185/55-15</option>
+                <option value="185/65-14">185/65-14</option>
+                <option value="185/65-15">185/65-15</option>
+                <option value="195/55-15">195/55-15</option>
+                <option value="195/55-15">195/65-15</option>
+                <option value="205/55-16">205/55-16</option>
+                <option value="205/65-16">205/65-16</option>
+                <option value="225/55-18">225/55-18</option>
+                <option value="235/60-17">235/60-17</option>
+                <option value="235/60-18">235/60-18</option>
+                <option value="235/65-17">235/65-17</option>
+                <option value="255/50-19">255/50-19</option>
+            </select><br><br>
+            <input id="button" type="submit" value="Hae"><br><br>
+        </form>        
+    </div>
+
+
 
 </body>
 </html>
