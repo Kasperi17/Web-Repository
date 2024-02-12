@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PHP ja HTML esimerkki</title>
+    <title>PHP ja HTML</title>
 </head>
 <body>
 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mustat Renkaat</title>
+    
     <style>
         /* Perustyyli sivulle */
         body {
@@ -53,10 +54,16 @@
 </head>
 <body>
 
+
+
+
 <!-- Ylätunniste yrityksen tiedoille, mukana logo -->
 <header>
     <img id="logo" src="logo_dark.svg" alt="Mustat Renkaat Logo">
 </header>
+
+<!-- Tähän osioon lisätty kuva -->
+<img src="e:\xampp\htdocs\pexels-andrea-piacquadio-3807695.jpg" width="280" height="125" title="Logo of a company" alt="Logo of a company" />
 
 <footer>
     <div id="company-info">
@@ -74,6 +81,8 @@ $host = "127.0.0.1";
 $username = "root";
 $password = "";
 $database_in_use = "renkaat";
+
+
 
 try {
     $connection = new PDO("mysql:host=$host;dbname=$database_in_use", $username, $password);
