@@ -35,6 +35,11 @@
             padding: 20px;
             flex: 1;
         }
+        .slideshow-container {
+        max-width: 3px;
+        position: left;
+        margin: right;
+        }
 
         /* Alatunniste kartalle ja sesonkimainoksille */
         footer {
@@ -47,6 +52,14 @@
             bottom: 0;
             width: 100%;
         }
+        .mySlides img {
+        max-width: 50%; /* Tee kuva täyttämään vanhempi elementti leveyssuunnassa */
+        height: 50%; /* Säilytä alkuperäinen kuvasuhde */
+        position: absolute;
+        right: 100px;
+        }
+
+        
 
         /* Lisää tyylit tarvittaessa */
     </style>
@@ -63,7 +76,7 @@
 </header>
 
 <!-- Tähän osioon lisätty kuva -->
-<img src="e:\xampp\htdocs\pexels-andrea-piacquadio-3807695.jpg" width="280" height="125" title="Logo of a company" alt="Logo of a company" />
+
 
 <footer>
     <div id="company-info">
@@ -145,8 +158,37 @@ catch(PDOException $e) {
             <input id="button" type="submit" value="Hae"><br><br>
         </form>        
     </div>
+    <!-- Slideshow-container ja kuvat -->
+<main>
+    <div class="slideshow-container">
+        <div class="mySlides img">
+            <img src="kuva1.jpg" class="mySlides img" alt="Kuva 1">
+        </div>
+        <div class="mySlides img">
+            <img src="kuva2.jpg" alt="Kuva 2">
+        </div>
+        <div class="mySlider img">
+            <img src="pexels-andrea-piacquadio-3807649.jpg" class="mySlides img" alt="Kuva 3" width="100px"; height="100px">
+        </div>
+    </div>
+</main>
+<!-- JavaScript slideshowin toiminnallisuutta varten -->
+<script>
+    var slideIndex = 0;
 
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("SlideShow");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1 }
+        slides[slideIndex - 1].style.display = "block";
+        setTimeout(showSlides, 2000); // Vaihda kuvaa joka 2 sekunti
+    }
 
-
+    showSlides(); // Käynnistä slideshow
+</script>
 </body>
 </html>
