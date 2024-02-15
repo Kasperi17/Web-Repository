@@ -35,10 +35,21 @@
             padding: 20px;
             flex: 1;
         }
+        
         .slideshow-container {
-        max-width: 3px;
-        position: left;
-        margin: right;
+            max-width: 600px;
+            position: relative;
+            margin: auto;
+            top: 10px; /* Muuta tähän haluamasi yläreuna */
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        .mySlides img {
+            max-width: 100%;
+            height: auto;
         }
 
         /* Alatunniste kartalle ja sesonkimainoksille */
@@ -52,23 +63,12 @@
             bottom: 0;
             width: 100%;
         }
-        .mySlides img {
-        max-width: 50%; /* Tee kuva täyttämään vanhempi elementti leveyssuunnassa */
-        height: 50%; /* Säilytä alkuperäinen kuvasuhde */
-        position: absolute;
-        right: 100px;
-        }
-
-        
 
         /* Lisää tyylit tarvittaessa */
     </style>
     
 </head>
 <body>
-
-
-
 
 <!-- Ylätunniste yrityksen tiedoille, mukana logo -->
 <header>
@@ -77,17 +77,38 @@
 
 <!-- Tähän osioon lisätty kuva -->
 
+<div id="box">
+    <form method="post">
+        <div style="font-size: 30px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white; text-align:center;">Mustat Renkaat</div>
+        Tyyppi: <select name="type" id="Type">
+            <option value="Nasta">Nasta</option>
+            <option value="Kitka">Kitka</option>
+            <option value="Kesä">Kesä</option>
+        </select><br><br>
+        Koko: <select name="size" id="Size">
+            <option value="165/55-14">165/55-14</option>
+            <option value="165/55-15">165/55-15</option>
+            <option value="165/65-14">165/65-14</option>
+            <option value="175/65-14">175/65-14</option>
+            <option value="175/65-15">175/65-15</option>
+            <option value="185/55-15">185/55-15</option>
+            <option value="185/65-14">185/65-14</option>
+            <option value="185/65-15">185/65-15</option>
+            <option value="195/55-15">195/55-15</option>
+            <option value="195/55-15">195/65-15</option>
+            <option value="205/55-16">205/55-16</option>
+            <option value="205/65-16">205/65-16</option>
+            <option value="225/55-18">225/55-18</option>
+            <option value="235/60-17">235/60-17</option>
+            <option value="235/60-18">235/60-18</option>
+            <option value="235/65-17">235/65-17</option>
+            <option value="255/50-19">255/50-19</option>
+        </select><br><br>
+        <input id="button" type="submit" value="Hae"><br><br>
+    </form>        
+</div>
 
-<footer>
-    <div id="company-info">
-        <p>Mustapään Auto Oy</p>
-        <p>Mustat Renkaat</p>
-        <p>Kosteenkatu 1, 86300 Oulainen</p>
-        <p>Puh. 040-7128158</p>
-        <p>Email: myyntimies@mustatrenkaat.net</p>
-    </div>
-</footer>
-
+<!-- PHP-koodi renkaiden haulle -->
 <?php
 session_start();
 $host = "127.0.0.1";
@@ -95,90 +116,58 @@ $username = "root";
 $password = "";
 $database_in_use = "renkaat";
 
-
-
 try {
     $connection = new PDO("mysql:host=$host;dbname=$database_in_use", $username, $password);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    if($_SERVER['REQUEST_METHOD'] == "POST") {
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $Type = $_POST['type'];
         $Size = $_POST['size'];
-        if(!empty($Type) && !empty($Size))  {
+        if (!empty($Type) && !empty($Size))  {
             $query = "SELECT * FROM Renkaat WHERE Tyyppi LIKE '%".$Type."%' AND Koko LIKE '%".$Size."%'";
 
             $result = $connection->query($query);
 
             $result->execute();
 
-            if($result->rowCount() > 0) {
-                while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            if ($result->rowCount() > 0) {
+                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     $Tire = "id: " . $row["RengasID"]. " - Name: " . $row["Merkki"]. " - Model: " . $row["Malli"]. " - Type: " . $row["Tyyppi"]. " - Size: " . $row["Koko"]. " - Price: $ " . $row["Hinta"]. " - Balance: " . $row["Saldo"];
                     echo $Tire . "<br><br>";
                 }
             }
-        }
-        else {
+        } else {
             echo "Information is invalid";
         }
     }
-}
-catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 ?>
 </style>
-    <div id="box">
-        <form method="post">
-            <div style="font-size: 30px;margin: 10px;font-family: Arial, Helvetica, sans-serif;color: white; text-align:center;">Mustat Renkaat</div>
-            Tyyppi: <select name="type" id="Type">
-                <option value="Nasta">Nasta</option>
-                <option value="Kitka">Kitka</option>
-                <option value="Kesä">Kesä</option>
-            </select><br><br>
-            Koko: <select name="size" id="Size">
-                <option value="165/55-14">165/55-14</option>
-                <option value="165/55-15">165/55-15</option>
-                <option value="165/65-14">165/65-14</option>
-                <option value="175/65-14">175/65-14</option>
-                <option value="175/65-15">175/65-15</option>
-                <option value="185/55-15">185/55-15</option>
-                <option value="185/65-14">185/65-14</option>
-                <option value="185/65-15">185/65-15</option>
-                <option value="195/55-15">195/55-15</option>
-                <option value="195/55-15">195/65-15</option>
-                <option value="205/55-16">205/55-16</option>
-                <option value="205/65-16">205/65-16</option>
-                <option value="225/55-18">225/55-18</option>
-                <option value="235/60-17">235/60-17</option>
-                <option value="235/60-18">235/60-18</option>
-                <option value="235/65-17">235/65-17</option>
-                <option value="255/50-19">255/50-19</option>
-            </select><br><br>
-            <input id="button" type="submit" value="Hae"><br><br>
-        </form>        
-    </div>
-    <!-- Slideshow-container ja kuvat -->
+
+<!-- Slideshow-container ja kuvat -->
 <main>
     <div class="slideshow-container">
-        <div class="mySlides img">
-            <img src="kuva1.jpg" class="mySlides img" alt="Kuva 1">
+        <div class="mySlides">
+            <img src="pexels-pixabay-416728.jpg" alt="Kuva 1">
         </div>
-        <div class="mySlides img">
-            <img src="kuva2.jpg" alt="Kuva 2">
+        <div class="mySlides">
+            <img src="pexels-mihis-alex-21014.jpg" alt="Kuva 2">
         </div>
-        <div class="mySlider img">
-            <img src="pexels-andrea-piacquadio-3807649.jpg" class="mySlides img" alt="Kuva 3" width="100px"; height="100px">
+        <div class="mySlides">
+            <img src="nina-mercado-e9YFrEBWit8-unsplash.jpg" alt="Kuva 3">
         </div>
     </div>
 </main>
+
 <!-- JavaScript slideshowin toiminnallisuutta varten -->
 <script>
     var slideIndex = 0;
 
     function showSlides() {
         var i;
-        var slides = document.getElementsByClassName("SlideShow");
+        var slides = document.getElementsByClassName("mySlides");
         for (i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";
         }
@@ -190,5 +179,35 @@ catch(PDOException $e) {
 
     showSlides(); // Käynnistä slideshow
 </script>
+
+<!-- Alatunniste kartalle ja sesonkimainoksille -->
+<footer>
+    <div id="company-info">
+        <p>Mustapään Auto Oy</p>
+        <p>Mustat Renkaat</p>
+        <p>Kosteenkatu 1, 86300 Oulainen</p>
+        <p>Puh. 040-7128158</p>
+        <p>Email: myyntimies@mustatrenkaat.net</p>
+        <!-- Lisää linkki kartan avaamiseen -->
+        <a href="#" onclick="showMap()">Näytä kartta</a>
+    </div>
+    <!-- Lisää div kuvan säiliöksi -->
+    <div id="mapContainer" style="display: none;">
+        <!-- Tähän lisätään kuva -->
+        <img src="polku/kuvaan/kartta.jpg" alt="Yrityksen kartta">
+    </div>
+</footer>
+
+<!-- Lisää tämä script-elementin sisään, mieluiten ennen </body> -tagia -->
+<script>
+    // Funktio, joka näyttää kuvan
+    function showMap() {
+        // Avaa kuvan uudessa ikkunassa
+        var mapWindow = window.open("", "_blank");
+        // Lisää kuva ikkunaan
+        mapWindow.document.write('<img src="polku/kuvaan/kartta.jpg" alt="Yrityksen kartta">');
+    }
+</script>
+
 </body>
 </html>
