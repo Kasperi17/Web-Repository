@@ -37,10 +37,11 @@
         }
         
         .slideshow-container {
-            max-width: 600px;
+            max-width: 300px;
             position: relative;
             margin: auto;
-            top: 10px; /* Muuta tähän haluamasi yläreuna */
+            right: -40%;
+            top: -170px; /* Muuta tähän haluamasi yläreuna */
         }
 
         .mySlides {
@@ -62,6 +63,10 @@
             position: absolute;
             bottom: 0;
             width: 100%;
+        }
+        #videoContainer {
+            width: 300px;
+            margin-right: 20px;
         }
 
         /* Lisää tyylit tarvittaessa */
@@ -156,8 +161,14 @@ try {
             <img src="pexels-mihis-alex-21014.jpg" alt="Kuva 2">
         </div>
         <div class="mySlides">
-            <img src="nina-mercado-e9YFrEBWit8-unsplash.jpg" alt="Kuva 3">
+            <img src="tekton-O_ufcLVTAYw-unsplash.jpg" alt="Kuva 3">
         </div>
+    </div>
+    <div id="videoContainer">
+        <video width="300" height="auto" controls>
+            <source src="<iframe width="560" height="315" src="https://www.youtube.com/embed/U1Y5DAZ_4PY?si=a6rIn7E3PG34qhVZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 </main>
 
@@ -194,7 +205,7 @@ try {
     <!-- Lisää div kuvan säiliöksi -->
     <div id="mapContainer" style="display: none;">
         <!-- Tähän lisätään kuva -->
-        <img src="polku/kuvaan/kartta.jpg" alt="Yrityksen kartta">
+        <img src="MUSTATrenkaat_Karttakuva.jpg" alt="Yrityksen kartta">
     </div>
 </footer>
 
@@ -205,7 +216,7 @@ try {
         // Avaa kuvan uudessa ikkunassa
         var mapWindow = window.open("", "_blank");
         // Lisää kuva ikkunaan
-        mapWindow.document.write('<img src="polku/kuvaan/kartta.jpg" alt="Yrityksen kartta">');
+        mapWindow.document.write('<img src="MUSTATrenkaat_Karttakuva.jpg"" alt="Yrityksen kartta">');
     }
 </script>
 
