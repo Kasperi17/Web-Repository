@@ -64,12 +64,28 @@
             bottom: 0;
             width: 100%;
         }
-        #videoContainer {
-            width: 300px;
-            margin-right: 20px;
+
+        .video-container {
+            margin-left: auto;
+            margin-right: 50px;
+            position: absolute;
+            right: 0%;
         }
 
-        /* Lisää tyylit tarvittaessa */
+        /* Lisää responsiivisuus mediakyselyillä */
+        @media only screen and (max-width: 600px) {
+            #logo {
+                width: 150px;
+            }
+
+            main {
+                padding: 10px;
+            }
+
+            .video-container {
+                margin-right: 10px;
+            }
+        }
     </style>
     
 </head>
@@ -110,6 +126,8 @@
             <option value="255/50-19">255/50-19</option>
         </select><br><br>
         <input id="button" type="submit" value="Hae"><br><br>
+        <label for="quantity">Valitse tilaus määrä:</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="10">
     </form>        
 </div>
 
@@ -149,7 +167,6 @@ try {
     echo "Error: " . $e->getMessage();
 }
 ?>
-</style>
 
 <!-- Slideshow-container ja kuvat -->
 <main>
@@ -164,11 +181,11 @@ try {
             <img src="tekton-O_ufcLVTAYw-unsplash.jpg" alt="Kuva 3">
         </div>
     </div>
-    <div id="videoContainer">
-        <video width="300" height="auto" controls>
-            <source src="<iframe width="560" height="315" src="https://www.youtube.com/embed/U1Y5DAZ_4PY?si=a6rIn7E3PG34qhVZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+</main>
+
+<main>
+    <div class="video-container">
+        <iframe width="700" height="450" src="https://www.youtube.com/embed/U1Y5DAZ_4PY?si=a6rIn7E3PG34qhVZ" frameborder="0" allowfullscreen></iframe>
     </div>
 </main>
 
