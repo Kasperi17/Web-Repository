@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lukumuunnos ja Käänteinen Lukumuunnos</title>
+</head>
+<body>
+
+<h2>Lukumuunnos ja Käänteinen Lukumuunnos</h2>
+
+<label for="inputNumber">Syötä luku:</label>
+<input type="number" id="inputNumber">
+<button onclick="suoritaMuunnos()">Muunna</button>
+
+<p id="tulos"></p>
+
+<script>
+    function suoritaMuunnos() {
+        // Katsotaan käyttäjän syöttämä luku
+        var syote = parseInt(document.getElementById("inputNumber").value);
+        // Muunnetaan luku
+        var binääriTulos = teeLukumuunnos(syote);
+        // Muunnetaan luku käänteisesti
+        var käänteinenTulos = teeKäänteinenLukumuunnos(binääriTulos);
+        
+        // Näytetään tulos
+        var tulosTeksti = "Lukumuunnos: " + binääriTulos + "<br>Käänteinen Lukumuunnos: " + käänteinenTulos;
+        document.getElementById("tulos").innerHTML = tulosTeksti;
+    }
+
+    function teeLukumuunnos(luku) {
+        var binääriLuku = "";
+        while (luku > 0) {
+            // Katsotaan jakojäännös
+            var jakojäännös = luku % 2;
+            // Lisätään se binäärilukuun
+            binääriLuku = jakojäännös + binääriLuku;
+            // Jaetaan luku kahdella
+            luku = Math.floor(luku / 2);
+        }
+        return binääriLuku;
+    }
+
+    function teeKäänteinenLukumuunnos(binääriLuku) {
+        var pituus = binääriLuku.length;
+        var desimaaliLuku = 0;
+
+        for (var i = 0; i < pituus; i++) {
+            // Lisätään jakojäännös desimaalilukuun ja kerrotaan kahden potenssiin
+            desimaaliLuku += parseInt(binääriLuku[i]) * Math.pow(2, pituus - i - 1);
+        }
+
+        return desimaaliLuku;
+    }
+</script>
+
+</body>
+</html>
