@@ -41,7 +41,7 @@
             position: relative;
             margin: auto;
             right: -40%;
-            top: -170px; /* Muuta tähän haluamasi yläreuna */
+            top: -160px; /* Muuta tähän haluamasi yläreuna */
         }
 
         .mySlides {
@@ -59,8 +59,8 @@
             color: #fff;
             padding: 10px;
             text-align: left;
-            margin-top: auto;
-            position: absolute;
+            margin-top: 11%;
+            position: relative;
             bottom: 0;
             width: 100%;
         }
@@ -68,10 +68,12 @@
         .video-container {
             margin-left: auto;
             margin-right: 50px;
-            position: absolute;
-            right: 0%;
-        }
+            right: 19.20%;
+            position: fixed;
+            top: 30.5%;
 
+        }
+        /*dadadadadadada
         /* Lisää responsiivisuus mediakyselyillä */
         @media only screen and (max-width: 600px) {
             #logo {
@@ -96,6 +98,64 @@
     <img id="logo" src="logo_dark.svg" alt="Mustat Renkaat Logo">
 </header>
 
+<?php
+session_start();
+$host = "127.0.0.1";
+$username = "root";
+$password = "";
+$database_in_use = "renkaat";
+
+try {
+    $connection = new PDO("mysql:host=$host;dbname=$database_in_use", $username, $password);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $Type = $_POST['type'];
+        $Size = $_POST['size'];
+        if (!empty($Type) && !empty($Size))  {
+            $query = "SELECT * FROM Renkaat WHERE Tyyppi LIKE '%".$Type."%' AND Koko LIKE '%".$Size."%'";
+
+            $result = $connection->query($query);
+
+            $result->execute();
+
+            if ($result->rowCount() > 0) {
+                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                    $Tire = "id: " . $row["RengasID"]. " - Name: " . $row["Merkki"]. " - Model: " . $row["Malli"]. " - Type: " . $row["Tyyppi"]. " - Size: " . $row["Koko"]. " - Price: $ " . $row["Hinta"]. " - Balance: " . $row["Saldo"];
+
+                    // Tulosta rengastiedot
+                    echo $Tire . "<br>";
+
+                    // Lisää tilauslomake
+                    echo '<form method="post" action="">';
+                    echo '  <label for="maara">Määrä:</label>';
+                    echo '  <input type="number" name="maara" id="maara" min="1" max="' . $row["Saldo"] . '" required>';
+                    echo '  <input type="hidden" name="rengasID" value="' . $row["RengasID"] . '">';
+                    echo '  <input type="submit" value="Tilaa">';
+                    echo '</form>';
+                }
+            } else {
+                echo "Rengasta ei löytynyt.";
+            }
+        } else {
+            echo "Tietoja puuttuu";
+        }
+    }
+
+    // Käsittely tilauksen jälkeen
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['maara'])) {
+        $maara = $_POST['maara'];
+        $rengasID = $_POST['rengasID'];
+
+        // Tässä voit lisätä tilauksen käsittelyn ja päivittää tietokantaa
+        // esim. vähentää saldoa ja tallentaa tilaustietoja
+
+        echo "Tilaus on vastaanotettu. Kiitos!";
+    }
+} catch (PDOException $e) {
+    echo "Virhe: " . $e->getMessage();
+}
+?>
 <!-- Tähän osioon lisätty kuva -->
 
 <div id="box">
@@ -126,47 +186,11 @@
             <option value="255/50-19">255/50-19</option>
         </select><br><br>
         <input id="button" type="submit" value="Hae"><br><br>
-        <label for="quantity">Valitse tilaus määrä:</label>
-        <input type="number" id="quantity" name="quantity" min="1" max="10">
     </form>        
 </div>
 
 <!-- PHP-koodi renkaiden haulle -->
-<?php
-session_start();
-$host = "127.0.0.1";
-$username = "root";
-$password = "";
-$database_in_use = "renkaat";
 
-try {
-    $connection = new PDO("mysql:host=$host;dbname=$database_in_use", $username, $password);
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $Type = $_POST['type'];
-        $Size = $_POST['size'];
-        if (!empty($Type) && !empty($Size))  {
-            $query = "SELECT * FROM Renkaat WHERE Tyyppi LIKE '%".$Type."%' AND Koko LIKE '%".$Size."%'";
-
-            $result = $connection->query($query);
-
-            $result->execute();
-
-            if ($result->rowCount() > 0) {
-                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                    $Tire = "id: " . $row["RengasID"]. " - Name: " . $row["Merkki"]. " - Model: " . $row["Malli"]. " - Type: " . $row["Tyyppi"]. " - Size: " . $row["Koko"]. " - Price: $ " . $row["Hinta"]. " - Balance: " . $row["Saldo"];
-                    echo $Tire . "<br><br>";
-                }
-            }
-        } else {
-            echo "Information is invalid";
-        }
-    }
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
-?>
 
 <!-- Slideshow-container ja kuvat -->
 <main>
@@ -185,7 +209,7 @@ try {
 
 <main>
     <div class="video-container">
-        <iframe width="700" height="450" src="https://www.youtube.com/embed/U1Y5DAZ_4PY?si=a6rIn7E3PG34qhVZ" frameborder="0" allowfullscreen></iframe>
+        <iframe width="200" height="200" src="https://www.youtube.com/embed/U1Y5DAZ_4PY?si=a6rIn7E3PG34qhVZ" frameborder="0" allowfullscreen></iframe>
     </div>
 </main>
 
@@ -236,6 +260,6 @@ try {
         mapWindow.document.write('<img src="MUSTATrenkaat_Karttakuva.jpg"" alt="Yrityksen kartta">');
     }
 </script>
-
+// Fdadadad
 </body>
 </html>
