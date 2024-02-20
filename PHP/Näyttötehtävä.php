@@ -59,8 +59,7 @@
             color: #fff;
             padding: 10px;
             text-align: left;
-            margin-top: 11%;
-            position: relative;
+            position: absolute;
             bottom: 0;
             width: 100%;
         }
@@ -241,7 +240,7 @@ try {
         <p>Puh. 040-7128158</p>
         <p>Email: myyntimies@mustatrenkaat.net</p>
         <!-- Lisää linkki kartan avaamiseen -->
-        <a href="#" onclick="showMap()">Näytä kartta</a>
+        <a href="#" onclick="showMap()" style="color: #ADD8E6;">Näytä kartta</a>
     </div>
     <!-- Lisää div kuvan säiliöksi -->
     <div id="mapContainer" style="display: none;">
@@ -260,6 +259,6 @@ try {
         mapWindow.document.write('<img src="MUSTATrenkaat_Karttakuva.jpg"" alt="Yrityksen kartta">');
     }
 </script>
-// Fdadadad
+
 </body>
 </html>
