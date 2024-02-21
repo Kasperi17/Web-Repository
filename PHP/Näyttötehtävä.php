@@ -34,6 +34,7 @@
         main {
             padding: 20px;
             flex: 1;
+            margin: 30px;
         }
         
         .slideshow-container {
@@ -59,7 +60,7 @@
             color: #fff;
             padding: 10px;
             text-align: left;
-            position: absolute;
+            position: relative;
             bottom: 0;
             width: 100%;
         }
@@ -67,11 +68,12 @@
         .video-container {
             margin-left: auto;
             margin-right: 50px;
-            right: 19.20%;
-            position: fixed;
-            top: 30.5%;
-
+            right: 21.05%;
+            position: absolute;
+            top: 372.5px;
         }
+        .contact-form {}
+
         /*dadadadadadada
         /* Lisää responsiivisuus mediakyselyillä */
         @media only screen and (max-width: 600px) {
@@ -122,6 +124,11 @@ try {
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     $Tire = "id: " . $row["RengasID"]. " - Name: " . $row["Merkki"]. " - Model: " . $row["Malli"]. " - Type: " . $row["Tyyppi"]. " - Size: " . $row["Koko"]. " - Price: $ " . $row["Hinta"]. " - Balance: " . $row["Saldo"];
 
+                    // Lisää kuva, jos se on saatavilla
+                    if (!empty($row["Kuva"])) {
+                        $Tire .= '<br><img src="' . $row["Kuva"] . '" alt="Rengas" width="50" height="50">';
+                    }
+
                     // Tulosta rengastiedot
                     echo $Tire . "<br>";
 
@@ -130,7 +137,7 @@ try {
                     echo '  <label for="maara">Määrä:</label>';
                     echo '  <input type="number" name="maara" id="maara" min="1" max="' . $row["Saldo"] . '" required>';
                     echo '  <input type="hidden" name="rengasID" value="' . $row["RengasID"] . '">';
-                    echo '  <input type="submit" value="Tilaa">';
+                    echo '  <input type="button" value="Tilaa">';
                     echo '</form>';
                 }
             } else {
@@ -155,6 +162,7 @@ try {
     echo "Virhe: " . $e->getMessage();
 }
 ?>
+
 <!-- Tähän osioon lisätty kuva -->
 
 <div id="box">
@@ -211,6 +219,33 @@ try {
         <iframe width="200" height="200" src="https://www.youtube.com/embed/U1Y5DAZ_4PY?si=a6rIn7E3PG34qhVZ" frameborder="0" allowfullscreen></iframe>
     </div>
 </main>
+
+
+<!-- Lisää lomake renkaiden hakusivulle -->
+<main>
+<div id="contact-form">
+    <h2>Täytä yhteystietosi</h2>
+    <form method="post" action="">
+        <label for="nimi">Nimi:</label>
+        <input type="text" name="nimi" required>
+        <br> 
+        <label for="postiosoite">Postiosoite:</label>
+        <input type="text" name="postiosoite" required>
+        <br>
+        <label for="sahkopostiosoite">Sähköpostiosoite:</label>
+        <input type="email" name="sahkopostiosoite" required>
+        <br>
+        <label for="puhelinnumero">Puhelinnumero:</label>
+        <input type="tel" name="puhelinnumero" required>
+        <br>
+        <!-- Lisää piilotettu kenttä rengasID:n siirtämiseksi -->
+        <input type="hidden" name="rengasID" value="<?php echo $row["RengasID"]; ?>">
+
+        <input type="submit" name="submit" value="Tilaa">
+    </form>
+</div>
+</main>
+
 
 <!-- JavaScript slideshowin toiminnallisuutta varten -->
 <script>
