@@ -32,9 +32,9 @@
 
         /* Pääsisältö renkaiden haulle */
         main {
-            padding: 20px;
+            padding: 10px;
             flex: 1;
-            margin: 30px;
+            margin: 0px;
         }
         
         .slideshow-container {
@@ -60,8 +60,8 @@
             color: #fff;
             padding: 10px;
             text-align: left;
-            position: relative;
-            bottom: 0;
+            position: fixed; /* Muutettu fixediksi */
+            bottom: 0; /* Alareunaan kiinni */
             width: 100%;
         }
 
@@ -72,7 +72,13 @@
             position: absolute;
             top: 372.5px;
         }
-        .contact-form {}
+
+        /* Lisätty tyyliä lomakkeelle */
+        #contact-form {
+
+            position: relative
+            left: 0;
+        }
 
         /*dadadadadadada
         /* Lisää responsiivisuus mediakyselyillä */
@@ -87,6 +93,11 @@
 
             .video-container {
                 margin-right: 10px;
+            }
+
+            /* Lisätty responsiivisuutta lomakkeelle */
+            #contact-form {
+                max-width: 90%;
             }
         }
     </style>
@@ -133,11 +144,11 @@ try {
                     echo $Tire . "<br>";
 
                     // Lisää tilauslomake
-                    echo '<form method="post" action="">';
+                    echo '<form method="post" action="tilausvahvistus.php">'; // Muutettu action
                     echo '  <label for="maara">Määrä:</label>';
                     echo '  <input type="number" name="maara" id="maara" min="1" max="' . $row["Saldo"] . '" required>';
                     echo '  <input type="hidden" name="rengasID" value="' . $row["RengasID"] . '">';
-                    echo '  <input type="button" value="Tilaa">';
+                    echo '  <input type="submit" name="submit" value="Tilaa">'; // Muutettu tyyppi buttonista submitiksi
                     echo '</form>';
                 }
             } else {
@@ -223,29 +234,27 @@ try {
 
 <!-- Lisää lomake renkaiden hakusivulle -->
 <main>
-<div id="contact-form">
-    <h2>Täytä yhteystietosi</h2>
-    <form method="post" action="">
-        <label for="nimi">Nimi:</label>
-        <input type="text" name="nimi" required>
-        <br> 
-        <label for="postiosoite">Postiosoite:</label>
-        <input type="text" name="postiosoite" required>
-        <br>
-        <label for="sahkopostiosoite">Sähköpostiosoite:</label>
-        <input type="email" name="sahkopostiosoite" required>
-        <br>
-        <label for="puhelinnumero">Puhelinnumero:</label>
-        <input type="tel" name="puhelinnumero" required>
-        <br>
-        <!-- Lisää piilotettu kenttä rengasID:n siirtämiseksi -->
-        <input type="hidden" name="rengasID" value="<?php echo $row["RengasID"]; ?>">
-
-        <input type="submit" name="submit" value="Tilaa">
-    </form>
-</div>
+    <div id="contact-form">
+        <h2>Täytä yhteystietosi</h2>
+        <form method="post" action="tilausvahvistus.php">
+            <label for="nimi">Nimi:</label>
+            <input type="text" name="nimi" required>
+            <br> 
+            <label for="postiosoite">Postiosoite:</label>
+            <input type="text" name="postiosoite" required>
+            <br>
+            <label for="sahkopostiosoite">Sähköpostiosoite:</label>
+            <input type="email" name="sahkopostiosoite" required>
+            <br>
+            <label for="puhelinnumero">Puhelinnumero:</label>
+            <input type="tel" name="puhelinnumero" required>
+            <br>
+            <!-- Lisää piilotettu kenttä rengasID:n siirtämiseksi -->
+            <input type="hidden" name="rengasID" value="<?php echo $row["RengasID"]; ?>">
+            <input type="submit" name="submit" value="Tilaa">
+        </form>
+    </div>
 </main>
-
 
 <!-- JavaScript slideshowin toiminnallisuutta varten -->
 <script>
