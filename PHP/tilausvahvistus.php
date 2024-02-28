@@ -90,11 +90,11 @@
             echo "<p><strong>Toimitustapa:</strong> $toimitustapa</p>";
 
             // Asiakastiedot
-            echo "<h2>Asiakastiedot:</h2>";
-            echo "<p><strong>Nimi:</strong> $nimi</p>";
-            echo "<p><strong>Postiosoite:</strong> $postiosoite</p>";
-            echo "<p><strong>Sähköpostiosoite:</strong> $sahkopostiosoite</p>";
-            echo "<p><strong>Puhelinnumero:</strong> $puhelinnumero</p>";
+            //echo "<h2>Asiakastiedot:</h2>";
+            //echo "<p><strong>Nimi:</strong> $nimi</p>";
+            //echo "<p><strong>Postiosoite:</strong> $postiosoite</p>";
+            //echo "<p><strong>Sähköpostiosoite:</strong> $sahkopostiosoite</p>";
+            //echo "<p><strong>Puhelinnumero:</strong> $puhelinnumero</p>";
 
             // Tilauksen yhteenveto
             echo "<h2>Tilauksen yhteenveto:</h2>";

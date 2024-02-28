@@ -32,7 +32,7 @@
 
         /* Pääsisältö renkaiden haulle */
         main {
-            padding: 10px;
+            padding: 300px;
             flex: 1;
             margin: 0px;
         }
@@ -60,7 +60,7 @@
             color: #fff;
             padding: 10px;
             text-align: left;
-            position: fixed; /* Muutettu fixediksi */
+            position: absolute; /* Muutettu fixediksi */
             bottom: 0; /* Alareunaan kiinni */
             width: 100%;
         }
@@ -75,9 +75,10 @@
 
         /* Lisätty tyyliä lomakkeelle */
         #contact-form {
-
-            position: relative
+            max-width: 90%; /* Lisätty responsiivisuutta lomakkeelle */
+            position: relative;
             left: 0;
+            top: 50px;
         }
 
         /*dadadadadadada
@@ -93,11 +94,6 @@
 
             .video-container {
                 margin-right: 10px;
-            }
-
-            /* Lisätty responsiivisuutta lomakkeelle */
-            #contact-form {
-                max-width: 90%;
             }
         }
     </style>
@@ -144,20 +140,28 @@ try {
                     echo $Tire . "<br>";
 
                     // Lisää tilauslomake
-                    echo '<form method="post" action="tilausvahvistus.php">'; // Muutettu action
+                    echo '<form>';
                     echo '  <label for="maara">Määrä:</label>';
                     echo '  <input type="number" name="maara" id="maara" min="1" max="' . $row["Saldo"] . '" required>';
                     echo '  <input type="hidden" name="rengasID" value="' . $row["RengasID"] . '">';
-                    echo '  <input type="submit" name="submit" value="Tilaa">'; // Muutettu tyyppi buttonista submitiksi
+                    echo '  <button type="submit" name="submit">Tilaa</button>'; // Muutettu tyyppi buttonista submitiksi
+                    echo '<form onsubmit="handleOrder(event);">';
                     echo '</form>';
                 }
+                
+                
             } else {
                 echo "Rengasta ei löytynyt.";
             }
         } else {
             echo "Tietoja puuttuu";
         }
+        
+        
+        
+        
     }
+    
 
     // Käsittely tilauksen jälkeen
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['maara'])) {
@@ -172,6 +176,7 @@ try {
 } catch (PDOException $e) {
     echo "Virhe: " . $e->getMessage();
 }
+
 ?>
 
 <!-- Tähän osioon lisätty kuva -->
@@ -207,6 +212,7 @@ try {
     </form>        
 </div>
 
+
 <!-- PHP-koodi renkaiden haulle -->
 
 
@@ -223,17 +229,12 @@ try {
             <img src="tekton-O_ufcLVTAYw-unsplash.jpg" alt="Kuva 3">
         </div>
     </div>
-</main>
 
-<main>
     <div class="video-container">
         <iframe width="200" height="200" src="https://www.youtube.com/embed/U1Y5DAZ_4PY?si=a6rIn7E3PG34qhVZ" frameborder="0" allowfullscreen></iframe>
     </div>
-</main>
 
-
-<!-- Lisää lomake renkaiden hakusivulle -->
-<main>
+    <!-- Lisää lomake renkaiden hakusivulle -->
     <div id="contact-form">
         <h2>Täytä yhteystietosi</h2>
         <form method="post" action="tilausvahvistus.php">
