@@ -83,22 +83,15 @@
 
         /*dadadadadadada
         /* Lisää responsiivisuus mediakyselyillä */
-        @media only screen and (max-width: 600px) {
-            #logo {
-                width: 150px;
-            }
-
-            main {
-                padding: 10px;
-            }
-
-            .video-container {
-                margin-right: 10px;
-            }
-        }
+        
     </style>
     
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 </head>
+
+
 <body>
 
 <!-- Ylätunniste yrityksen tiedoille, mukana logo -->
@@ -228,9 +221,13 @@ try {
     <div class="video-container">
         <iframe width="200" height="200" src="https://www.youtube.com/embed/U1Y5DAZ_4PY?si=a6rIn7E3PG34qhVZ" frameborder="0" allowfullscreen></iframe>
     </div>
+  
+    <div id="map" style="height: 400px;"></div>
+
 
 
 </main>
+
 
 <!-- JavaScript slideshowin toiminnallisuutta varten -->
 <script>
@@ -279,7 +276,19 @@ try {
         mapWindow.document.write('<img src="MUSTATrenkaat_Karttakuva.jpg"" alt="Yrityksen kartta">');
     }
 </script>
+<!-- JavaScript Leaflet-kartan luomiseksi -->
+<script>
+  // Luo kartta ja aseta sijainti ja zoom-taso
+  var mymap = L.map('map').setView([62.231548, 24.9411], 16);
 
+  // Lisää OpenStreetMap-kerros
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(mymap);
+
+  // Lisää merkki Siltakadun sijaintiin
+  L.marker([60.1708, 24.9411]).addTo(mymap);
+</script>
 
 </body>
 </html>
