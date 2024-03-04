@@ -125,7 +125,6 @@ try {
 
             $result = $connection->query($query);
 
-            $result->execute();
 
             if ($result->rowCount() > 0) {
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
@@ -140,15 +139,13 @@ try {
                     echo $Tire . "<br>";
 
                     // Lisää tilauslomake
-                    echo '<form>';
+                    echo '<form method="post" action="tilausvahvistus.php">'; // Muutettu action
                     echo '  <label for="maara">Määrä:</label>';
                     echo '  <input type="number" name="maara" id="maara" min="1" max="' . $row["Saldo"] . '" required>';
                     echo '  <input type="hidden" name="rengasID" value="' . $row["RengasID"] . '">';
-                    echo '  <button type="submit" name="submit">Tilaa</button>'; // Muutettu tyyppi buttonista submitiksi
-                    echo '<form onsubmit="handleOrder(event);">';
+                    echo '  <input type="submit" name="submit" value="Tilaa">'; // Muutettu tyyppi buttonista submitiksi
                     echo '</form>';
                 }
-                
                 
             } else {
                 echo "Rengasta ei löytynyt.";
@@ -161,7 +158,6 @@ try {
         
         
     }
-    
 
     // Käsittely tilauksen jälkeen
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['maara'])) {
@@ -176,7 +172,6 @@ try {
 } catch (PDOException $e) {
     echo "Virhe: " . $e->getMessage();
 }
-
 ?>
 
 <!-- Tähän osioon lisätty kuva -->
@@ -234,27 +229,7 @@ try {
         <iframe width="200" height="200" src="https://www.youtube.com/embed/U1Y5DAZ_4PY?si=a6rIn7E3PG34qhVZ" frameborder="0" allowfullscreen></iframe>
     </div>
 
-    <!-- Lisää lomake renkaiden hakusivulle -->
-    <div id="contact-form">
-        <h2>Täytä yhteystietosi</h2>
-        <form method="post" action="tilausvahvistus.php">
-            <label for="nimi">Nimi:</label>
-            <input type="text" name="nimi" required>
-            <br> 
-            <label for="postiosoite">Postiosoite:</label>
-            <input type="text" name="postiosoite" required>
-            <br>
-            <label for="sahkopostiosoite">Sähköpostiosoite:</label>
-            <input type="email" name="sahkopostiosoite" required>
-            <br>
-            <label for="puhelinnumero">Puhelinnumero:</label>
-            <input type="tel" name="puhelinnumero" required>
-            <br>
-            <!-- Lisää piilotettu kenttä rengasID:n siirtämiseksi -->
-            <input type="hidden" name="rengasID" value="<?php echo $row["RengasID"]; ?>">
-            <input type="submit" name="submit" value="Tilaa">
-        </form>
-    </div>
+
 </main>
 
 <!-- JavaScript slideshowin toiminnallisuutta varten -->
@@ -304,6 +279,7 @@ try {
         mapWindow.document.write('<img src="MUSTATrenkaat_Karttakuva.jpg"" alt="Yrityksen kartta">');
     }
 </script>
+
 
 </body>
 </html>
