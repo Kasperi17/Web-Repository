@@ -6,7 +6,7 @@
     <title>Mustat Renkaat</title>
     
     <style>
-        /* Perustyyli sivulle */
+        /* sivun normaali tyyli */
         body {
             margin: 0;
             padding: 0; 
@@ -15,12 +15,14 @@
             font-family: 'Racing Sans One', sans-serif;
         }
 
-        /* Ylätunniste yrityksen tiedoille */
+        /* ylätunniste logolle */
         header {
             background-color: #F205B3;
             color: #fff;
             text-align: center;
         }   
+
+        /* sivun päätoiminnalisuus osan tyyli */
         main {
             padding: 150px;
             flex: 1;
@@ -28,6 +30,7 @@
             font: ;
             font-family: 'Racing Sans One', sans-serif;
         }
+
         /* Logon koko ja muut tyylit */
         #logo {
             width: 250px;
@@ -36,24 +39,22 @@
             display: block;
         }
         
+        /* mainos slideshown tila ja sijainti */
         .slideshow-container {
             max-width: 300px;
             position: relative;
             margin: auto;
             right: -50.5%;
-            top: -222.5px; /* Muuta tähän haluamasi yläreuna */
+            top: -222.5px; 
         }
 
-        .mySlides {
-            display: none;
-        }
-
+        /* slideshown kuvien tyyli */
         .mySlides img {
             max-width: 100%;
             height: auto;
         }
 
-        /* Alatunniste kartalle ja sesonkimainoksille */
+        /* Footterin tyyli ja sijainti*/
         footer {
             background-color: #023059;
             color: #fff;
@@ -64,12 +65,14 @@
             width: 100%;
         }
 
+        /* video containerin tyyli ja sijainti*/
         .video-container {
             right: 0px;
             position: absolute;
             top: 125px;
         }
-
+        
+        /* kartan tyylija sijainti*/
         .custom-map {
         height: 150px;
         width: 300px;
@@ -78,9 +81,13 @@
         bottom: 0;
         }
     </style>
-    
+
+<!-- Leaflet-karttakirjaston CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<!-- Leaflet-karttakirjasto -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.gstatic.com%22%3E/">
 <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap" rel="stylesheet">
 
@@ -90,12 +97,13 @@
 
 <body>
 
-<!-- Ylätunniste yrityksen tiedoille, mukana logo -->
+<!-- logo -->
 <header>
     <img id="logo" src="logo_dark.svg" alt="Mustat Renkaat Logo">
 </header>
 
 <?php
+// luodaan php yhteys tietokantaan
 session_start();
 $host = "127.0.0.1";
 $username = "root";
@@ -106,7 +114,10 @@ try {
     $connection = new PDO("mysql:host=$host;dbname=$database_in_use", $username, $password);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+     // katsotaan onko lomake lähetetty post metodilla
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        
+        // Haetaan renkaat tietokannasta koon ja tyypin perusteella
         $Type = $_POST['type'];
         $Size = $_POST['size'];
         if (!empty($Type) && !empty($Size))  {
@@ -114,20 +125,20 @@ try {
 
             $result = $connection->query($query);
 
-
+              // Jos renkaita löytyy, näytetään ne ja tilauslomake
             if ($result->rowCount() > 0) {
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     $Tire = "id: " . $row["RengasID"]. " - Name: " . $row["Merkki"]. " - Model: " . $row["Malli"]. " - Type: " . $row["Tyyppi"]. " - Size: " . $row["Koko"]. " - Price: $ " . $row["Hinta"]. " - Balance: " . $row["Saldo"];
 
-                    // Lisää kuva, jos se on saatavilla
+                    // lisää kuvan renkaasta
                     if (!empty($row["Kuva"])) {
                         $Tire .= '<br><img src="' . $row["Kuva"] . '" alt="Rengas" width="50" height="50">';
                     }
 
-                    // Tulosta rengastiedot
+                    // tulostetaan renkaan tiedot ja laitetaan tilauslomake
                     echo $Tire . "<br>";
 
-                    // Lisää tilauslomake
+                    // Tilauslomake
                     echo '<form method="post" action="tilausvahvistus.php">'; // Muutettu action
                     echo '  <label for="maara">Määrä:</label>';
                     echo '  <input type="number" name="maara" id="maara" min="1" max="' . $row["Saldo"] . '" required>';
@@ -145,22 +156,21 @@ try {
         
     }
 
-    // Käsittely tilauksen jälkeen
+    // Tarkistetaan, onko lomake lähetetty POST-metodilla ja onko määrä asetettu
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['maara'])) {
         $maara = $_POST['maara'];
         $rengasID = $_POST['rengasID'];
 
-        // Tässä voit lisätä tilauksen käsittelyn ja päivittää tietokantaa
-        // esim. vähentää saldoa ja tallentaa tilaustietoja
 
-        echo "Tilaus on vastaanotettu. Kiitos!";
+
+
     }
 } catch (PDOException $e) {
     echo "Virhe: " . $e->getMessage();
 }
 ?>
 
-<!-- Tähän osioon lisätty kuva -->
+<!-- hakulomake renkaitten etsimistä varten -->
 
 <div id="box">
     <form method="post">
@@ -194,7 +204,7 @@ try {
 </div>
 
 
-<!-- PHP-koodi renkaiden haulle -->
+
 
 
 <!-- Slideshow-container ja kuvat -->
@@ -217,10 +227,11 @@ try {
 </main>
 
 
-<!-- JavaScript slideshowin toiminnallisuutta varten -->
+<!-- JavaScript slideshowin toiminnallisuutta -->
 <script>
+    // Alustetaan slideshowin indeksi
     var slideIndex = 0;
-
+    // Funktio, joka näyttää kuvat
     function showSlides() {
         var i;
         var slides = document.getElementsByClassName("mySlides");
@@ -230,10 +241,10 @@ try {
         slideIndex++;
         if (slideIndex > slides.length) { slideIndex = 1 }
         slides[slideIndex - 1].style.display = "block";
-        setTimeout(showSlides, 2000); // Vaihda kuvaa joka 2 sekunti
+        setTimeout(showSlides, 2000); 
     }
 
-    showSlides(); // Käynnistä slideshow
+    showSlides(); 
 </script>
 
 <!-- Alatunniste kartalle ja sesonkimainoksille -->
@@ -244,39 +255,31 @@ try {
         <p>Kosteenkatu 1, 86300 Oulainen</p>
         <p>Puh. 040-7128158</p>
         <p>Email: myyntimies@mustatrenkaat.net</p>
-        <!-- Lisää linkki kartan avaamiseen -->
         <a href="#" onclick="showMap()" style="color: #ADD8E6;">Näytä kartta</a>
     </div>
-    <!-- Lisää div kuvan säiliöksi -->
     <div id="mapContainer" style="display: none;">
-        <!-- Tähän lisätään kuva -->
         <img src="MUSTATrenkaat_Karttakuva.jpg" alt="Yrityksen kartta">
     </div>
     <div id="map" class="custom-map"></div>
 </footer>
 
-<!-- Lisää tämä script-elementin sisään, mieluiten ennen </body> -tagia -->
+<!-- Avaa kartan -->
 <script>
-    // Funktio, joka näyttää kuvan
     function showMap() {
-        // Avaa kuvan uudessa ikkunassa
         var mapWindow = window.open("", "_blank");
-        // Lisää kuva ikkunaan
         mapWindow.document.write('<img src="MUSTATrenkaat_Karttakuva.jpg"" alt="Yrityksen kartta">');
     }
 </script>
 
 <!-- JavaScript Leaflet-kartan luomiseksi -->
 <script>
-  // Luo kartta ja aseta sijainti ja zoom-taso
+    // Luo kartan ja asettaa sijainnin ja zoom-tason
   var mymap = L.map('map').setView([64.265957, 24.818990], 16);
-
   // Lisää OpenStreetMap-kerros
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(mymap);
-
-  // Lisää merkki Siltakadun sijaintiin
+   // Lisää merkki Siltakadun sijaintiin
   L.marker([64.265957, 24.818990]).addTo(mymap);
 </script>
 
