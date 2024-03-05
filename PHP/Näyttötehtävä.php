@@ -8,20 +8,26 @@
     <style>
         /* Perustyyli sivulle */
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0; 
             position: relative;
             min-height: 100vh;
+            font-family: 'Racing Sans One', sans-serif;
         }
 
         /* Ylätunniste yrityksen tiedoille */
         header {
-            background-color: #19a5ec;
+            background-color: #F205B3;
             color: #fff;
             text-align: center;
+        }   
+        main {
+            padding: 150px;
+            flex: 1;
+            margin: 0px;
+            font: ;
+            font-family: 'Racing Sans One', sans-serif;
         }
-
         /* Logon koko ja muut tyylit */
         #logo {
             width: 250px;
@@ -29,20 +35,13 @@
             margin: left;
             display: block;
         }
-
-        /* Pääsisältö renkaiden haulle */
-        main {
-            padding: 300px;
-            flex: 1;
-            margin: 0px;
-        }
         
         .slideshow-container {
             max-width: 300px;
             position: relative;
             margin: auto;
-            right: -40%;
-            top: -160px; /* Muuta tähän haluamasi yläreuna */
+            right: -50.5%;
+            top: -222.5px; /* Muuta tähän haluamasi yläreuna */
         }
 
         .mySlides {
@@ -56,38 +55,35 @@
 
         /* Alatunniste kartalle ja sesonkimainoksille */
         footer {
-            background-color: #333;
+            background-color: #023059;
             color: #fff;
             padding: 10px;
             text-align: left;
-            position: absolute; /* Muutettu fixediksi */
-            bottom: 0; /* Alareunaan kiinni */
+            position: absolute; 
+            bottom: 0; 
             width: 100%;
         }
 
         .video-container {
-            margin-left: auto;
-            margin-right: 50px;
-            right: 21.05%;
+            right: 0px;
             position: absolute;
-            top: 372.5px;
+            top: 125px;
         }
 
-        /* Lisätty tyyliä lomakkeelle */
-        #contact-form {
-            max-width: 90%; /* Lisätty responsiivisuutta lomakkeelle */
-            position: relative;
-            left: 0;
-            top: 50px;
+        .custom-map {
+        height: 150px;
+        width: 300px;
+        position: relative;
+        right: 50;
+        bottom: 0;
         }
-
-        /*dadadadadadada
-        /* Lisää responsiivisuus mediakyselyillä */
-        
     </style>
     
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com%22%3E/">
+<link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap" rel="stylesheet">
+
 
 </head>
 
@@ -146,9 +142,6 @@ try {
         } else {
             echo "Tietoja puuttuu";
         }
-        
-        
-        
         
     }
 
@@ -221,11 +214,6 @@ try {
     <div class="video-container">
         <iframe width="200" height="200" src="https://www.youtube.com/embed/U1Y5DAZ_4PY?si=a6rIn7E3PG34qhVZ" frameborder="0" allowfullscreen></iframe>
     </div>
-  
-    <div id="map" style="height: 400px;"></div>
-
-
-
 </main>
 
 
@@ -264,6 +252,7 @@ try {
         <!-- Tähän lisätään kuva -->
         <img src="MUSTATrenkaat_Karttakuva.jpg" alt="Yrityksen kartta">
     </div>
+    <div id="map" class="custom-map"></div>
 </footer>
 
 <!-- Lisää tämä script-elementin sisään, mieluiten ennen </body> -tagia -->
@@ -276,10 +265,11 @@ try {
         mapWindow.document.write('<img src="MUSTATrenkaat_Karttakuva.jpg"" alt="Yrityksen kartta">');
     }
 </script>
+
 <!-- JavaScript Leaflet-kartan luomiseksi -->
 <script>
   // Luo kartta ja aseta sijainti ja zoom-taso
-  var mymap = L.map('map').setView([62.231548, 24.9411], 16);
+  var mymap = L.map('map').setView([64.265957, 24.818990], 16);
 
   // Lisää OpenStreetMap-kerros
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -287,7 +277,7 @@ try {
   }).addTo(mymap);
 
   // Lisää merkki Siltakadun sijaintiin
-  L.marker([60.1708, 24.9411]).addTo(mymap);
+  L.marker([64.265957, 24.818990]).addTo(mymap);
 </script>
 
 </body>
